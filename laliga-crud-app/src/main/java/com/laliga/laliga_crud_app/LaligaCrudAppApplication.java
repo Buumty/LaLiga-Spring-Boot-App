@@ -16,11 +16,5 @@ public class LaligaCrudAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LaligaCrudAppApplication.class, args);
 	}
-	@Bean
-	public CommandLineRunner run(PlayerRepository playerRepository, PlayerService playerService) {
-		return args -> {
-			long count = playerRepository.count();
-			System.out.println("📊 Liczba rekordów w tabeli player_data: " + count);
-		};
-	}
+
 }

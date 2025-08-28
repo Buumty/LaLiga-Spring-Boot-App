@@ -36,9 +36,9 @@ public class ApplicationSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/index.html", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/api/**").hasRole(USER.name())
-                        .requestMatchers(HttpMethod.DELETE,"management/api/**").hasAuthority(PLAYER_WRITE.name())
-                        .requestMatchers(HttpMethod.POST,"management/api/**").hasAuthority(PLAYER_WRITE.name())
-                        .requestMatchers(HttpMethod.PUT,"management/api/**").hasAuthority(PLAYER_WRITE.name())
+                        .requestMatchers(HttpMethod.DELETE,"management/api/**").hasAuthority(PLAYER_WRITE.getPermission())
+                        .requestMatchers(HttpMethod.POST,"management/api/**").hasAuthority(PLAYER_WRITE.getPermission())
+                        .requestMatchers(HttpMethod.PUT,"management/api/**").hasAuthority(PLAYER_WRITE.getPermission())
                         .requestMatchers(HttpMethod.GET,"management/api/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults());
@@ -51,19 +51,22 @@ public class ApplicationSecurityConfig {
         UserDetails annaSmithUser = User.builder()
                 .username("annasmith")
                 .password(passwordEncoder.encode("password"))
-                .roles(USER.name())
+//                .roles(USER.name())
+                .authorities(USER.getGrantedAuthorities())
                 .build();
 
         UserDetails lindaUser = User.builder()
                 .username("linda")
                 .password(passwordEncoder.encode("password"))
-                .roles(ADMIN.name())
+//                .roles(ADMIN.name())
+                .authorities(ADMIN.getGrantedAuthorities())
                 .build();
 
         UserDetails tomUser = User.builder()
                 .username("tom")
                 .password(passwordEncoder.encode("password"))
-                .roles(ADMINTRAINEE.name())
+//                .roles(ADMINTRAINEE.name())
+                .authorities(ADMINTRAINEE.getGrantedAuthorities())
                 .build();
 
         return new InMemoryUserDetailsManager(

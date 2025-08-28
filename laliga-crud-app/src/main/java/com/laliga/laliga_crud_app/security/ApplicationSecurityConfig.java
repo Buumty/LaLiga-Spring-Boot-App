@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -20,6 +22,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class ApplicationSecurityConfig {
 
     private final PasswordEncoder passwordEncoder;
@@ -36,10 +39,10 @@ public class ApplicationSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/index.html", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/api/**").hasRole(USER.name())
-                        .requestMatchers(HttpMethod.DELETE,"management/api/**").hasAuthority(PLAYER_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.POST,"management/api/**").hasAuthority(PLAYER_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.PUT,"management/api/**").hasAuthority(PLAYER_WRITE.getPermission())
-                        .requestMatchers(HttpMethod.GET,"management/api/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())
+//                        .requestMatchers(HttpMethod.DELETE,"management/api/**").hasAuthority(PLAYER_WRITE.getPermission())
+//                        .requestMatchers(HttpMethod.POST,"management/api/**").hasAuthority(PLAYER_WRITE.getPermission())
+//                        .requestMatchers(HttpMethod.PUT,"management/api/**").hasAuthority(PLAYER_WRITE.getPermission())
+//                        .requestMatchers(HttpMethod.GET,"management/api/**").hasAnyRole(ADMIN.name(), ADMINTRAINEE.name())
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults());
 

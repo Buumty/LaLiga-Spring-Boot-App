@@ -1,6 +1,5 @@
 package com.laliga.laliga_crud_app.auth;
 
-import com.laliga.laliga_crud_app.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

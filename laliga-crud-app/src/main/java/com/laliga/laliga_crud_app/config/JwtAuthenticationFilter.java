@@ -38,20 +38,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         jwt = authHeader.substring(7).trim();
-
-        // wymuś poprawny format JWS (3 segmenty => 2 kropki)
         if (jwt.chars().filter(ch -> ch == '.').count() != 2) {
             filterChain.doFilter(request, response);
             return;
         }
-
         try {
             userEmail = jwtService.extractUsername(jwt);
         } catch (io.jsonwebtoken.MalformedJwtException ex) {
             filterChain.doFilter(request, response);
             return;
         }
-
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
             if (jwtService.isTokenValid(jwt, userDetails)) {
@@ -62,7 +58,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
-
         filterChain.doFilter(request, response);
     }
 }

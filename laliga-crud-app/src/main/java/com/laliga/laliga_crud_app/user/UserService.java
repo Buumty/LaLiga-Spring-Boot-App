@@ -2,7 +2,9 @@ package com.laliga.laliga_crud_app.user;
 
 import com.laliga.laliga_crud_app.user.dto.UserCreateDTO;
 import com.laliga.laliga_crud_app.user.dto.UserReadDTO;
+import com.laliga.laliga_crud_app.user.dto.UserUpdateDTO;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,9 +33,14 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserReadDTO findByEmail(String email) {
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
+    }
+
+    public UserReadDTO findDTOByEmail(String email) {
         return toDTO(userRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new));
     }
+    @Transactional
     public User createUser(UserCreateDTO userCreateDTO) {
         User user = toNewEntity(userCreateDTO);
         user.setEmail(userCreateDTO.email().trim().toLowerCase());
@@ -41,5 +48,32 @@ public class UserService {
         user.setRoles(EnumSet.of(Role.USER));
         userRepository.save(user);
         return user;
+    }
+
+    @Transactional
+    public UserReadDTO updateUser(String email, UserUpdateDTO userUpdateDTO) {
+        User user = userRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
+
+        if (userUpdateDTO.firstname() != null && !userUpdateDTO.firstname().isBlank()) {
+            user.setFirstname(userUpdateDTO.firstname());
+        }
+        if (userUpdateDTO.lastname() != null && !userUpdateDTO.lastname().isBlank()) {
+            user.setLastname(userUpdateDTO.lastname());
+        }
+        if (userUpdateDTO.password() != null && !userUpdateDTO.password().isBlank()) {
+            user.setPassword(passwordEncoder.encode(userUpdateDTO.password()));
+        }
+
+        User savedUser = userRepository.save(user);
+        return toDTO(savedUser);
+    }
+
+    @Transactional
+    public void deleteByEmail(String email) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            userRepository.deleteByEmail(email);
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
 }

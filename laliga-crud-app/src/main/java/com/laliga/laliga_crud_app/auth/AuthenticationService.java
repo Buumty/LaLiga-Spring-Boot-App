@@ -1,34 +1,27 @@
 package com.laliga.laliga_crud_app.auth;
 
 import com.laliga.laliga_crud_app.config.JwtService;
-import com.laliga.laliga_crud_app.user.Role;
-import com.laliga.laliga_crud_app.user.User;
-import com.laliga.laliga_crud_app.user.UserRepository;
+import com.laliga.laliga_crud_app.user.UserService;
+import com.laliga.laliga_crud_app.user.dto.UserCreateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.EnumSet;
 
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserService userService;
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .roles(EnumSet.of(Role.USER))
-                .build();
-        userRepository.save(user);
+        var user = userService.createUser(new UserCreateDTO(
+                request.getFirstname(),
+                request.getLastname(),
+                request.getEmail(),
+                request.getPassword()
+        ));
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -42,8 +35,7 @@ public class AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow();
+        var user = userService.findUserByEmail(request.getEmail());
         var jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
                 .token(jwtToken)

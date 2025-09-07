@@ -2,7 +2,7 @@ package com.laliga.laliga_crud_app.auth;
 
 import com.laliga.laliga_crud_app.config.JwtService;
 import com.laliga.laliga_crud_app.user.UserService;
-import com.laliga.laliga_crud_app.user.dto.UserCreateDTO;
+import com.laliga.laliga_crud_app.user.dto.UserCreateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +16,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     public AuthenticationResponse register(RegisterRequest request) {
-        var user = userService.createUser(new UserCreateDTO(
+        var user = userService.createUser(new UserCreateDto(
                 request.getFirstname(),
                 request.getLastname(),
                 request.getEmail(),

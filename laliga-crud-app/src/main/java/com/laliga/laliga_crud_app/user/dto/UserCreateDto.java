@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record UserCreateDTO(
+public record UserCreateDto(
         @NotBlank @Size(max = 100) String firstname,
         @NotBlank @Size(max = 100) String lastname,
         @Email @NotBlank @Size(max = 255) String email,

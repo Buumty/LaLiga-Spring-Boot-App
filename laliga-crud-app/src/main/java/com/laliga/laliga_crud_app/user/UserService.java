@@ -1,13 +1,13 @@
 package com.laliga.laliga_crud_app.user;
 
-import com.laliga.laliga_crud_app.user.dto.UserCreateDTO;
-import com.laliga.laliga_crud_app.user.dto.UserReadDTO;
-import com.laliga.laliga_crud_app.user.dto.UserUpdateDTO;
+import com.laliga.laliga_crud_app.user.dto.UserCreateDto;
+import com.laliga.laliga_crud_app.user.dto.UserReadDto;
+import com.laliga.laliga_crud_app.user.dto.UserUpdateDto;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import static com.laliga.laliga_crud_app.user.UserMapper.toDTO;
 import static com.laliga.laliga_crud_app.user.UserMapper.toNewEntity;
 
+@Transactional(readOnly = true)
 @Service
 public class UserService {
     private final PasswordEncoder passwordEncoder;
@@ -27,23 +28,23 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<UserReadDTO> findAllUsers() {
+    public List<UserReadDto> findAllUsers() {
         return userRepository.findAll().stream()
                 .map(UserMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
+        return userRepository.findByEmail(norm(email)).orElseThrow(EntityNotFoundException::new);
     }
 
-    public UserReadDTO findDTOByEmail(String email) {
-        return toDTO(userRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new));
+    public UserReadDto findDTOByEmail(String email) {
+        return toDTO(userRepository.findByEmail(norm(email)).orElseThrow(EntityNotFoundException::new));
     }
     @Transactional
-    public User createUser(UserCreateDTO userCreateDTO) {
+    public User createUser(UserCreateDto userCreateDTO) {
         User user = toNewEntity(userCreateDTO);
-        user.setEmail(userCreateDTO.email().trim().toLowerCase());
+        user.setEmail(norm(userCreateDTO.email()));
         user.setPassword(passwordEncoder.encode(userCreateDTO.password()));
         user.setRoles(EnumSet.of(Role.USER));
         userRepository.save(user);
@@ -51,8 +52,8 @@ public class UserService {
     }
 
     @Transactional
-    public UserReadDTO updateUser(String email, UserUpdateDTO userUpdateDTO) {
-        User user = userRepository.findByEmail(email).orElseThrow(EntityNotFoundException::new);
+    public UserReadDto updateUser(String email, UserUpdateDto userUpdateDTO) {
+        User user = userRepository.findByEmail(norm(email)).orElseThrow(EntityNotFoundException::new);
 
         if (userUpdateDTO.firstname() != null && !userUpdateDTO.firstname().isBlank()) {
             user.setFirstname(userUpdateDTO.firstname());
@@ -70,10 +71,12 @@ public class UserService {
 
     @Transactional
     public void deleteByEmail(String email) {
-        if (userRepository.findByEmail(email).isPresent()) {
-            userRepository.deleteByEmail(email);
+        if (userRepository.findByEmail(norm(email)).isPresent()) {
+            userRepository.deleteByEmail(norm(email));
         } else {
             throw new EntityNotFoundException();
         }
     }
+
+    private static String norm(String email) {return email.trim().toLowerCase();}
 }

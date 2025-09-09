@@ -11,9 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.laliga.laliga_crud_app.user.UserMapper.toDTO;
+import static com.laliga.laliga_crud_app.user.UserMapper.toDto;
 import static com.laliga.laliga_crud_app.user.UserMapper.toNewEntity;
 
 @Transactional(readOnly = true)
@@ -28,18 +27,13 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<UserReadDto> findAllUsers() {
+    public List<UserReadDto> findAllUsersDto() {
         return userRepository.findAll().stream()
-                .map(UserMapper::toDTO)
-                .collect(Collectors.toList());
+                .map(UserMapper::toDto)
+                .toList();
     }
-
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(norm(email)).orElseThrow(EntityNotFoundException::new);
-    }
-
-    public UserReadDto findDTOByEmail(String email) {
-        return toDTO(userRepository.findByEmail(norm(email)).orElseThrow(EntityNotFoundException::new));
     }
     @Transactional
     public User createUser(UserCreateDto userCreateDTO) {
@@ -49,6 +43,17 @@ public class UserService {
         user.setRoles(EnumSet.of(Role.USER));
         userRepository.save(user);
         return user;
+    }
+    @Transactional
+    public void deleteByEmail(String email) {
+        if (userRepository.findByEmail(norm(email)).isPresent()) {
+            userRepository.deleteByEmail(norm(email));
+        } else {
+            throw new EntityNotFoundException();
+        }
+    }
+    public UserReadDto findUserDtoByEmail(String email) {
+        return toDto(userRepository.findByEmail(norm(email)).orElseThrow(EntityNotFoundException::new));
     }
 
     @Transactional
@@ -66,16 +71,7 @@ public class UserService {
         }
 
         User savedUser = userRepository.save(user);
-        return toDTO(savedUser);
-    }
-
-    @Transactional
-    public void deleteByEmail(String email) {
-        if (userRepository.findByEmail(norm(email)).isPresent()) {
-            userRepository.deleteByEmail(norm(email));
-        } else {
-            throw new EntityNotFoundException();
-        }
+        return toDto(savedUser);
     }
 
     private static String norm(String email) {return email.trim().toLowerCase();}

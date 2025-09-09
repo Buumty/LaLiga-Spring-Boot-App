@@ -7,7 +7,7 @@ import org.springframework.lang.NonNull;
 import java.util.Set;
 
 public final class UserMapper {
-    public static UserReadDto toDTO(@NonNull User user) {
+    public static UserReadDto toDto(@NonNull User user) {
         return new UserReadDto(
                 user.getId(),
                 user.getFirstname(),

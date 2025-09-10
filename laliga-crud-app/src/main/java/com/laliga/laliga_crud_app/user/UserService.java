@@ -61,10 +61,10 @@ public class UserService {
         User user = userRepository.findByEmail(norm(email)).orElseThrow(EntityNotFoundException::new);
 
         if (userUpdateDTO.firstname() != null && !userUpdateDTO.firstname().isBlank()) {
-            user.setFirstname(userUpdateDTO.firstname());
+            user.setFirstname(userUpdateDTO.firstname().trim());
         }
         if (userUpdateDTO.lastname() != null && !userUpdateDTO.lastname().isBlank()) {
-            user.setLastname(userUpdateDTO.lastname());
+            user.setLastname(userUpdateDTO.lastname().trim());
         }
         if (userUpdateDTO.password() != null && !userUpdateDTO.password().isBlank()) {
             user.setPassword(passwordEncoder.encode(userUpdateDTO.password()));

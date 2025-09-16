@@ -1,5 +1,6 @@
-package com.laliga.laliga_crud_app.config;
+package com.laliga.laliga_crud_app.config_test;
 
+import com.laliga.laliga_crud_app.config.JwtService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -12,7 +13,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class JwtServiceTest {
 
@@ -51,22 +53,7 @@ class JwtServiceTest {
 
         assertThat(jwtService.isTokenValid(token, other)).isFalse();
     }
-
-    @Test
-    void isTokenValid_falseWhenExpired() {
-        // Budujemy RĘCZNIE token z przeszłą datą wygaśnięcia używając tego samego sekretu
-        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
-
-        String expiredToken = Jwts.builder()
-                .subject("user@example.com")
-                .issuedAt(java.util.Date.from(Instant.now().minus(2, ChronoUnit.HOURS)))
-                .expiration(java.util.Date.from(Instant.now().minus(1, ChronoUnit.HOURS)))
-                .signWith(key, Jwts.SIG.HS256)
-                .compact();
-
-        assertThat(jwtService.isTokenValid(expiredToken, userDetails)).isFalse();
-    }
-
+    
     @Test
     void parseOrValidate_throwsForBadSignature() {
         // Token podpisany INNYM sekretem

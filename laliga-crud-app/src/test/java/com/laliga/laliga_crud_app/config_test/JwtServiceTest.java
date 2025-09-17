@@ -53,7 +53,7 @@ class JwtServiceTest {
 
         assertThat(jwtService.isTokenValid(token, other)).isFalse();
     }
-    
+
     @Test
     void parseOrValidate_throwsForBadSignature() {
         // Token podpisany INNYM sekretem

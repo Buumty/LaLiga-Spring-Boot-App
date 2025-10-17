@@ -1,7 +1,5 @@
 package com.laliga.laliga_crud_app.config_test;
 
-import com.laliga.laliga_crud_app.config.JwtAuthenticationFilter;
-import com.laliga.laliga_crud_app.config.JwtService;
 import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +34,7 @@ class JwtAuthenticationFilterTest {
 
     @BeforeEach
     void setUp() {
-        filter = new JwtAuthenticationFilter(jwtService);
+//        filter = new JwtAuthenticationFilter(jwtService);
         // wstrzyknięcie mocka w pole z @Autowired
         ReflectionTestUtils.setField(filter, "userDetailsService", userDetailsService);
         SecurityContextHolder.clearContext();

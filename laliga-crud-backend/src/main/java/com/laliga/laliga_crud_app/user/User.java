@@ -1,6 +1,8 @@
 package com.laliga.laliga_crud_app.user;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,7 +28,9 @@ public class User implements UserDetails {
     private String firstname;
     @Column(nullable = false, length = 100)
     private String lastname;
-    @Column(nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
+    @Email
+    @NotBlank
     private String email;
     @Column(nullable = false)
     private String password;

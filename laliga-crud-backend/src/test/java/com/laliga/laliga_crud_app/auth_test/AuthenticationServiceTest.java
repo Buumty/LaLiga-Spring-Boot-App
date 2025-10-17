@@ -4,7 +4,6 @@ import com.laliga.laliga_crud_app.auth.AuthenticationRequest;
 import com.laliga.laliga_crud_app.auth.AuthenticationResponse;
 import com.laliga.laliga_crud_app.auth.AuthenticationService;
 import com.laliga.laliga_crud_app.auth.RegisterRequest;
-import com.laliga.laliga_crud_app.config.JwtService;
 import com.laliga.laliga_crud_app.user.Role;
 import com.laliga.laliga_crud_app.user.User;
 import com.laliga.laliga_crud_app.user.UserService;

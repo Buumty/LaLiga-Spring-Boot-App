@@ -1,6 +1,3 @@
-import api from "../api/client";
+import { request } from "../components/axios_helper";
 
-export const listPlayers = () => {
-  // ZWRACA Promise z danymi
-  return api.get("/api/v1/players"); // <- dopasuj ścieżkę do backendu
-};
+export const listPlayers = () => request('GET', '/api/v1/players')

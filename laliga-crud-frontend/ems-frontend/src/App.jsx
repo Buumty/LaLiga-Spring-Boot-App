@@ -1,17 +1,25 @@
 import './App.css'
-import AuthContent from './components/AuthContent'
-import ListPlayerComponent from './components/ListPlayerComponent'
+import AppContent from './components/AppContent.jsx';
+import Header from './components/Header.jsx'
 
 function App() {
   
 
   return (
     <>
-      <ListPlayerComponent />
-      <AuthContent />
+      <div>
+        <Header pageTitle="Frontend authenticated with JWT" />
+        <div className='container-fluid'>
+          <div className='row'>
+            <div className='col'>
+              <AppContent />
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   )
 }
 
 
-export default App
+export default App;

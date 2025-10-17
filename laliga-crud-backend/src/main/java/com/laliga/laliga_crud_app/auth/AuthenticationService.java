@@ -1,6 +1,6 @@
 package com.laliga.laliga_crud_app.auth;
 
-import com.laliga.laliga_crud_app.config.JwtService;
+import com.laliga.laliga_crud_app.config.JwtUtil;
 import com.laliga.laliga_crud_app.user.UserService;
 import com.laliga.laliga_crud_app.user.dto.UserCreateDto;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final JwtService jwtService;
+    private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     public AuthenticationResponse register(RegisterRequest request) {
@@ -22,7 +22,7 @@ public class AuthenticationService {
                 request.getEmail(),
                 request.getPassword()
         ));
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtUtil.generateToken(user.getEmail());
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
@@ -36,7 +36,7 @@ public class AuthenticationService {
                 )
         );
         var user = userService.findUserByEmail(request.getEmail());
-        var jwtToken = jwtService.generateToken(user);
+        var jwtToken = jwtUtil.generateToken(user.getEmail());
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();

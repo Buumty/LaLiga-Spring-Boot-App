@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  background-color: #000; /* czarny */
+  padding: 1rem;
+  height: 7vh;
+  justify-content: left;
+}
+
+.logo {
+    flex: 1;
+    display: inline;
+}
+
+.navbar {
+    flex: 9;
+    justify-content: space-around;
+}
+
+.navbar *:hover {
+  color: #e5243b;
+}
+
+

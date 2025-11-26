@@ -1,0 +1,47 @@
+
+.laliga-table {
+  width: 100%;
+  font-size: 0.8rem;
+  color: #e6e6e6;
+}
+.laliga-table thead th {
+  background: #000;
+  border-bottom: 2px solid #e5243b;
+  font-weight: 600;
+}
+.laliga-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.04);
+}
+.laliga-table tbody tr:hover {
+  background: rgba(229, 36, 59, 0.15);
+}
+.laliga-table td {
+  padding: 5px;
+}
+.sortable-header {
+  cursor: pointer;
+}
+
+.sortable-header:hover {
+  color: #ff5252;
+}
+
+.btn-laliga {
+  background: transparent;
+  color: white;
+  border: 1px solid #e5243b;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin: 0 5px;
+  transition: 0.2s;
+}
+
+.btn-laliga:hover:not(:disabled) {
+  background: #e5243b;
+  color: white;
+}
+
+.btn-laliga:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

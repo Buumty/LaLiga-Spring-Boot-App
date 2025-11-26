@@ -1,0 +1,18 @@
+.ai-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background:
+    linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+    url('../../assets/welcome-bgc.jpg') center/cover no-repeat;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 5rem;
+}

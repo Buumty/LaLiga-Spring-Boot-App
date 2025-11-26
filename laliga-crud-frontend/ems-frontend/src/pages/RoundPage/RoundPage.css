@@ -1,0 +1,27 @@
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.round-page {
+  flex: 1;
+  width: 100%;
+  
+  
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+
+  background:
+    linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+    url('../../assets/welcome-bgc.jpg') center/cover no-repeat;
+}
+
+.round-component {
+  width: 100%;
+  max-width: 50%;
+  height: 100%;
+  margin: auto;
+}

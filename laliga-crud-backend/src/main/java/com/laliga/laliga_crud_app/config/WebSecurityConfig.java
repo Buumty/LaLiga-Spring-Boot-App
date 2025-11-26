@@ -48,11 +48,7 @@ public class WebSecurityConfig {
 
         // Jeśli używasz JWT w nagłówku (bez cookies):
         cfg.setAllowCredentials(false); // brak cookies
-        cfg.setAllowedOrigins(List.of(
-                "http://localhost:5173",   // Vite
-                "http://localhost:3000",
-                "http:46.224.100.218"
-        ));
+        cfg.setAllowedOriginPatterns(List.of("*"));
 
         cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));

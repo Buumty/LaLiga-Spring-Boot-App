@@ -50,12 +50,9 @@ public class WebSecurityConfig {
         cfg.setAllowCredentials(false); // brak cookies
         cfg.setAllowedOrigins(List.of(
                 "http://localhost:5173",   // Vite
-                "http://localhost:3000"    // CRA (create-react-app)
+                "http://localhost:3000",
+                "http:46.224.100.218"
         ));
-
-        // Jeśli używasz httpOnly cookies (refresh token) => odkomentuj niżej:
-        // cfg.setAllowCredentials(true);
-        // cfg.setAllowedOrigins(List.of("http://localhost:5173"));
 
         cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));

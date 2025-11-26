@@ -2,6 +2,7 @@ version: "3.9"
 
 services:
   db:
+    restart: always
     image: postgres:16
     container_name: laliga-postgres
     environment:
@@ -13,7 +14,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+
   backend:
+    restart: always
     build:
       context: .
       dockerfile: Dockerfile
@@ -28,6 +31,7 @@ services:
       - "8080:8080"
 
   frontend:
+    restart: always
     build:
       context: ../laliga-crud-frontend/ems-frontend
       dockerfile: Dockerfile

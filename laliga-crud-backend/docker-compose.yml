@@ -1,0 +1,40 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: laliga-postgres
+    environment:
+      POSTGRES_DB: laliga_stats
+      POSTGRES_USER: wojtas
+      POSTGRES_PASSWORD: wojtas
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laliga-backend
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/laliga_stats
+      SPRING_DATASOURCE_USERNAME: wojtas
+      SPRING_DATASOURCE_PASSWORD: wojtas
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ../laliga-crud-frontend/ems-frontend
+      dockerfile: Dockerfile
+    container_name: laliga-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+volumes:
+  postgres_data:

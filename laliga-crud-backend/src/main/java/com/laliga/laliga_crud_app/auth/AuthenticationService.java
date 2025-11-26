@@ -1,20 +1,27 @@
 package com.laliga.laliga_crud_app.auth;
 
 import com.laliga.laliga_crud_app.config.JwtUtil;
-import com.laliga.laliga_crud_app.user.UserService;
-import com.laliga.laliga_crud_app.user.dto.UserCreateDto;
-import lombok.RequiredArgsConstructor;
+import com.laliga.laliga_crud_app.entities.user.UserService;
+import com.laliga.laliga_crud_app.entities.user.dto.UserCreateDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService {
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
+
+    @Autowired
+    public AuthenticationService(JwtUtil jwtUtil, AuthenticationManager authenticationManager, UserService userService) {
+        this.jwtUtil = jwtUtil;
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+    }
+
     public AuthenticationResponse register(RegisterRequest request) {
         var user = userService.createUser(new UserCreateDto(
                 request.getFirstname(),

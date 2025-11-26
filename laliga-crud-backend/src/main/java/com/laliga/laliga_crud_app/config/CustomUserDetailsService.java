@@ -1,7 +1,7 @@
 package com.laliga.laliga_crud_app.config;
 
-import com.laliga.laliga_crud_app.user.User;
-import com.laliga.laliga_crud_app.user.UserRepository;
+import com.laliga.laliga_crud_app.entities.user.User;
+import com.laliga.laliga_crud_app.entities.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

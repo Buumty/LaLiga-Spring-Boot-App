@@ -6,9 +6,9 @@ services:
     image: postgres:16
     container_name: laliga-postgres
     environment:
-      POSTGRES_DB: laliga_stats
-      POSTGRES_USER: wojtas
-      POSTGRES_PASSWORD: wojtas
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -24,9 +24,13 @@ services:
     depends_on:
       - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/laliga_stats
-      SPRING_DATASOURCE_USERNAME: wojtas
-      SPRING_DATASOURCE_PASSWORD: wojtas
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      SPORTMONKS_API_TOKEN: ${SPORTMONKS_API_TOKEN}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_SECRET_HEX: ${JWT_SECRET_HEX}
+      JWT_EXPIRATION: ${JWT_EXPIRATION}
     ports:
       - "8080:8080"
 

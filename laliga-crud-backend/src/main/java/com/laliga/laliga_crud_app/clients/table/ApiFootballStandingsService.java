@@ -16,15 +16,12 @@ public class ApiFootballStandingsService {
     private final WebClient webClient;
     private final long laLigaSeasonId;
     private final long laLigaLeagueId;
-    private final String apiToken;
 
     public ApiFootballStandingsService(WebClient webClient, @Value("${laliga.season}") long laLigaSeasonId,
-                                       @Value("${laliga.league-id}") long laLigaLeagueId,
-                                       @Value("${sportmonks.api.token}") String apiToken) {
+                                       @Value("${laliga.league-id}") long laLigaLeagueId) {
         this.webClient = webClient;
         this.laLigaSeasonId = laLigaSeasonId;
         this.laLigaLeagueId = laLigaLeagueId;
-        this.apiToken = apiToken;
     }
 
     public List<LeagueTableRowDto> getLaLigaTable() {
